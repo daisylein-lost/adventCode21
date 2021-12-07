@@ -40,9 +40,7 @@ namespace adventCode21
             
             for (int i = 1; i < measures.Length; i++)
             {
-                var increased = measures[i-1]< measures[i];
-                var message = increased ? "(increased)" : "(decreased)";
-                increaseTimes = increased ? ++increaseTimes : increaseTimes;
+                increaseTimes = measures[i-1]< measures[i] ? ++increaseTimes : increaseTimes;
             }
 
             Console.WriteLine("{0} times increased", increaseTimes);
