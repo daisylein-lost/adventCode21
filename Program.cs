@@ -28,7 +28,7 @@ namespace day7
             Console.WriteLine("{0} -> {1}", positions[i], totalfuelToPosition[i]);
           }
 
-          var bestPos = Array.IndexOf(totalfuelToPosition, totalfuelToPosition.Min());
+          var bestPos = positions[Array.IndexOf(totalfuelToPosition, totalfuelToPosition.Min())];
           Console.WriteLine("Best Position: {0} with {1} fuel", bestPos, totalfuelToPosition.Min());
 
           return totalfuelToPosition.Min();
