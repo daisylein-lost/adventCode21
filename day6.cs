@@ -16,7 +16,7 @@ namespace adventCode21
         {
             Console.WriteLine("Part 2:");
 
-            var count = populationAfterDays2(80);
+            var count = populationAfterDays2(256);
 
             Console.WriteLine("Amount of lanternfish: {0}", count);
         }
