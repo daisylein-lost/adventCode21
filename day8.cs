@@ -21,10 +21,10 @@ namespace adventCode21
                 var knownPatterns = new List<string>() {"?","?","?","?","?","?","?","?","?","?"};
                 var data = splitInput(line);
 
-                knownPatterns[1] = String.Join(String.Empty,findEasyDigitknownPatterns(1, data.Item2));
-                knownPatterns[4] = String.Join(String.Empty,findEasyDigitknownPatterns(4, data.Item2));
-                knownPatterns[7] = String.Join(String.Empty,findEasyDigitknownPatterns(7, data.Item2));
-                knownPatterns[8] = String.Join(String.Empty,findEasyDigitknownPatterns(8, data.Item2));
+                knownPatterns[1] = String.Join(String.Empty,findEasyDigitPatterns(1, data.Item2));
+                knownPatterns[4] = String.Join(String.Empty,findEasyDigitPatterns(4, data.Item2));
+                knownPatterns[7] = String.Join(String.Empty,findEasyDigitPatterns(7, data.Item2));
+                knownPatterns[8] = String.Join(String.Empty,findEasyDigitPatterns(8, data.Item2));
 
                 var possible096 = data.Item2.Where(s => s.Count() == 6).Select(s  => s.ToCharArray().ToList()).ToList();
                 var possible235 = data.Item2.Where(s => s.Count() == 5).Select(s  => s.ToCharArray().ToList()).ToList();
@@ -32,12 +32,12 @@ namespace adventCode21
                 possible235.ForEach(x => x.Sort());
                 possible096.ForEach(x => x.Sort());
 
-                knownPatterns[3] = FindHardDigitknownPatterns(3, knownPatterns, possible235);
-                knownPatterns[0] = FindHardDigitknownPatterns(0, knownPatterns, possible096);
-                knownPatterns[9] = FindHardDigitknownPatterns(9, knownPatterns, possible096);
-                knownPatterns[6] = FindHardDigitknownPatterns(6, knownPatterns, possible096);
-                knownPatterns[5] = FindHardDigitknownPatterns(5, knownPatterns, possible235);
-                knownPatterns[2] = FindHardDigitknownPatterns(2, knownPatterns, possible235);
+                knownPatterns[3] = FindHardDigitPatterns(3, knownPatterns, possible235);
+                knownPatterns[0] = FindHardDigitPatterns(0, knownPatterns, possible096);
+                knownPatterns[9] = FindHardDigitPatterns(9, knownPatterns, possible096);
+                knownPatterns[6] = FindHardDigitPatterns(6, knownPatterns, possible096);
+                knownPatterns[5] = FindHardDigitPatterns(5, knownPatterns, possible235);
+                knownPatterns[2] = FindHardDigitPatterns(2, knownPatterns, possible235);
 
                 var digits = String.Join(String.Empty, data.Item1.Select(x => String.Join(String.Empty, x)).Select(d => knownPatterns.FindIndex(x => x.Equals(d))));
 
@@ -49,7 +49,7 @@ namespace adventCode21
 
         }
 
-        private string FindHardDigitknownPatterns(int digit, List<string> knownPatterns, List<List<char>> possibleCandidates)
+        private string FindHardDigitPatterns(int digit, List<string> knownPatterns, List<List<char>> possibleCandidates)
         {
 
             switch (digit)
@@ -114,12 +114,12 @@ namespace adventCode21
 
         private int countDigit(int digit, string[] allDigits, List<List<char>> fourDigits)
         {
-            var knownPatterns = findEasyDigitknownPatterns(digit, allDigits);
+            var knownPatterns = findEasyDigitPatterns(digit, allDigits);
 
             return fourDigits.FindAll(s => s.SequenceEqual(knownPatterns)).Count();
         }
 
-        private List<char> findEasyDigitknownPatterns(int digit, string[] allDigits)
+        private List<char> findEasyDigitPatterns(int digit, string[] allDigits)
         {
             List<char> list;
             switch (digit)
