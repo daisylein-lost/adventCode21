@@ -8,7 +8,7 @@ namespace adventCode21
     {
         static void Main(string[] args)
         {
-          var day = new day8();
+          var day = new day9();
           day.execute();
         }
     }
