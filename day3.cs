@@ -133,7 +133,7 @@ namespace adventCode21
             return array.Where(x => x == 1).Count() >= array.Where(x => x==0).Count() ? 1 : 0;
         }
 
-                private int getleastCommon(int[] array)
+        private int getleastCommon(int[] array)
         {
             return array.Where(x => x == 1).Count() >= array.Where(x => x==0).Count() ? 0 : 1;
         }
