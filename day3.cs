@@ -130,8 +130,6 @@ namespace adventCode21
 
         private int getMostCommon(int[] array)
         {
-            var ones = array.Where(x => x == 1).Count();
-            var zeros = array.Where(x => x==0).Count();
             return array.Where(x => x == 1).Count() >= array.Where(x => x==0).Count() ? 1 : 0;
         }
 
