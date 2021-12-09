@@ -2,29 +2,21 @@ namespace adventCode21
 {
     public class day1
     {
-        private bool real = true;
+        private static bool real = true;
+        private string file = real ? "day1_input1.txt" : "day1_inputTest.txt";
 
         public void execute()
         {
             Console.WriteLine("Part 1:");
-            calculateIncreases(readInput1());
+            calculateIncreases(InputConverter.get1dArray(InputConverter.getInput(file)));
             Console.WriteLine("--------------------");
             Console.WriteLine("Part2:");
-            calculateIncreases(readInput2());
+            calculateIncreases(convertInput(InputConverter.get1dArray(InputConverter.getInput(file))));
         }
 
-        private int[] readInput1()
+        private int[] convertInput(int[] input)
         { 
-            var file = real ? "day1_input1.txt" : "day1_inputTest.txt";
-            return System.IO.File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file)).Select(x => int.Parse(x)).ToArray();
-        }
-
-        private int[] readInput2()
-        {
-            var slidingWindow = 3;
-            var file = real ? "day1_input2.txt" : "day1_inputTest.txt";
-            var input = System.IO.File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file)).Select(x => int.Parse(x)).ToArray();
-            var measurements = new int[input.Length - slidingWindow + 1];
+            var measurements = new int[input.Length - 3 + 1];
 
             for (int i = 0; i < measurements.Length; i++)
             {

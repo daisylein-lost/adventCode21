@@ -13,6 +13,12 @@ namespace adventCode21
 
             return readings;
         }
+
+        public static int[] get1dArray(string[] input)
+        {
+            return input.Select(x => int.Parse(x)).ToArray();
+        }
+
         public static string[] getInput(string file)
         {
             return File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file));

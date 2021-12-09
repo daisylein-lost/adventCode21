@@ -109,7 +109,7 @@ namespace adventCode21
         {
             
             var file = real ? "day8_input1.txt" : "day8_inputTest" + part + ".txt";
-            return File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file));
+            return InputConverter.getInput(file);
         }
 
         private int countDigit(int digit, string[] allDigits, List<List<char>> fourDigits)

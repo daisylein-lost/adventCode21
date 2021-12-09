@@ -2,7 +2,9 @@ namespace adventCode21
 {
     public class day2
     {
-        private bool real = true;
+        private static bool real = true;
+
+        private string file = real ? "day2_input1.txt" : "day2_inputTest.txt";
 
         public void execute()
         {
@@ -13,9 +15,7 @@ namespace adventCode21
         private void do2()
         {
             Console.WriteLine("Part 2:");
-
-            var file = real ? "day2_input1.txt" : "day2_inputTest.txt";
-            var input = System.IO.File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file));
+            var input = InputConverter.getInput(file);
             var position = (horizontal: 0, vertical: 0, aim: 0);
             
             foreach (var line in input)
@@ -56,8 +56,7 @@ namespace adventCode21
         private void do1()
         {
             Console.WriteLine("Part 1:");
-            var file = real ? "day2_input1.txt" : "day2_inputTest.txt";
-            var input = System.IO.File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file));
+            var input = InputConverter.getInput(file);
             var position = (0, 0);
             
             foreach (var line in input)

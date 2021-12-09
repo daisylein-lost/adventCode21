@@ -3,7 +3,8 @@ namespace adventCode21
 {
     public class day9
     {
-        private bool real = true;
+        private static bool real = true;
+        private string file = real ? "day9_input1.txt" : "day9_inputTest.txt";
 
         public void execute()
         {
@@ -13,7 +14,7 @@ namespace adventCode21
 
         private void do2()
         {
-            var heatmap = getInput();
+            var heatmap = InputConverter.get2dArray(InputConverter.getInput(file));
             var lowestPoints = GetLowestPoints(heatmap);
             var basinSizeList = new List<int>();
 
@@ -60,7 +61,7 @@ namespace adventCode21
 
         private void do1()
         {
-            var heatmap = getInput();
+            var heatmap = InputConverter.get2dArray(InputConverter.getInput(file));
 
             var lowestPointValues = GetLowestPoints(heatmap).Select(x => heatmap[x.Item1, x.Item2]);
 
@@ -85,26 +86,6 @@ namespace adventCode21
             }
 
             return points;
-        }
-
-        private int[,] getInput()
-        {
-            
-            var file = real ? "day9_input1.txt" : "day9_inputTest.txt";
-            var input = File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file));
-
-            var readings = new int[input.Length, input[0].Length];
-
-            for (int x = 0; x < readings.GetLength(0); x++)
-            {
-                var temp = input[x].ToCharArray().Select(x => int.Parse(x.ToString())).ToArray();
-                for (int y = 0; y < temp.Length; y++)
-                {
-                    readings[x, y] = temp[y];
-                }
-            }
-
-            return readings;
         }
 
         private List<(int, int)> getNeighbors(int[,] array, (int, int) position)
