@@ -50,6 +50,24 @@ namespace adventCode21
             return array;
         }
 
+        public static void PrintMap<T>(this T[,] array) where T : struct
+        {
+            Console.Write("   ");
+            Enumerable.Range(0, array.GetUpperBound(0)+1).ToList().ForEach(i => Console.Write("{0} ", i));
+            Console.WriteLine("");
+            Console.WriteLine("----------------------");
+
+            for (int i = 0; i <= array.GetUpperBound(0); i++)
+            {
+                Console.Write("{0}| ", i);
+                for (int l = 0; l <= array.GetUpperBound(1); l++)
+                {
+                    Console.Write("{0} ", array[i,l]);
+                }
+                Console.WriteLine("");
+            }
+        }
+
         public static string[] getInput(string file)
         {
             return File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file));
