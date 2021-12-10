@@ -38,6 +38,18 @@ namespace adventCode21
             return input.Select(x => int.Parse(x)).ToArray();
         }
 
+        public static T[,] SetAllValues<T>(this T[,] array, T value) where T : struct
+        {
+            for (int i = 0; i <= array.GetUpperBound(0); i++)
+            {
+                for (int l = 0; l <= array.GetUpperBound(1); l++)
+                {
+                    array[i,l] = value;
+                }
+            }
+            return array;
+        }
+
         public static string[] getInput(string file)
         {
             return File.ReadAllLines(Path.Join(Directory.GetCurrentDirectory(), "files" , file));
