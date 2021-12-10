@@ -2,13 +2,32 @@ namespace adventCode21
 {
     public static class InputConverter
     {
-        public static int[,] get2dArray(string[] input)
+        public static string addCharacterEveryXPosition(string input, char character, int X)
         {
-            var readings = new int[input.Length, input[0].Length];
+            var newString = new List<char>();
+            for (int i = 0; i < input.Length; i= i+X)
+            {
+                newString.AddRange(input.Substring(i, X).ToCharArray());
+                newString.Add(character);
+            }
+
+            return String.Join(String.Empty,newString);
+        }
+
+        public static int[,] get2dArray(string[] input, char seperator='\0')
+        {
+            if(seperator == '\0')
+            {
+                input = input.Select(s => addCharacterEveryXPosition(s, ',', 1)).ToArray();
+                seperator = ',';
+            }
+
+            var readings = new int[input.Length, input[0].Where(s => s == seperator).Count()+1];
 
             for (int x = 0; x < input.Length; x++)
             {
-                readings = replaceRow(readings,input[x].ToCharArray().Select(x => int.Parse(x.ToString())).ToArray(), x);
+                var newRow = input[x].Split(seperator).Where(s => ! string.IsNullOrWhiteSpace(s)).Select(s => int.Parse(s)).ToArray();
+                readings = replaceRow(readings,newRow, x);
             }
 
             return readings;
