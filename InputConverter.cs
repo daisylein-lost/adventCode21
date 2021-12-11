@@ -5,11 +5,13 @@ namespace adventCode21
         public static string addCharacterEveryXPosition(string input, char character, int X)
         {
             var newString = new List<char>();
-            for (int i = 0; i < input.Length; i= i+X)
+            for (int i = 0; i < input.Length-X; i= i+X)
             {
                 newString.AddRange(input.Substring(i, X).ToCharArray());
                 newString.Add(character);
             }
+
+            newString.AddRange(input.Substring(input.Length-X, X).ToCharArray());
 
             return String.Join(String.Empty,newString);
         }
@@ -45,6 +47,20 @@ namespace adventCode21
                 for (int l = 0; l <= array.GetUpperBound(1); l++)
                 {
                     array[i,l] = value;
+                }
+            }
+            return array;
+        }
+
+        public static T[,] IncreaseAllValues<T>(this  T[,] array, T value) where T : struct
+        {
+            for (int i = 0; i <= array.GetUpperBound(0); i++)
+            {
+                for (int l = 0; l <= array.GetUpperBound(1); l++)
+                {
+                    dynamic a = array[i,l];
+                    dynamic b = value;
+                    array[i,l] = a + b;
                 }
             }
             return array;
@@ -121,5 +137,59 @@ namespace adventCode21
 
             return row;
         }
+
+        public static List<(int, int)> get4Neighborhood(int[,] array, (int, int) position)
+        {
+            return get4Neighborhood(array, new Point(position.Item1, position.Item2)).Select(x => (x.xCoordinate, x.yCoordinate)).ToList();
+        }
+
+        public static List<Point> get4Neighborhood(int[,] array, Point point)
+        {
+            var neighbors = new List<Point>();
+
+            if(point.xCoordinate > 0)
+            {
+                neighbors.Add(new Point(point.xCoordinate -1, point.yCoordinate));
+            }
+            if(point.yCoordinate > 0)
+            {
+                neighbors.Add(new Point(point.xCoordinate , point.yCoordinate-1));
+            }
+            if(point.xCoordinate  < array.GetLength(0)-1)
+            {
+                neighbors.Add(new Point(point.xCoordinate +1, point.yCoordinate));
+            }
+            if(point.yCoordinate < array.GetLength(1)-1)
+            {
+                neighbors.Add(new Point(point.xCoordinate , point.yCoordinate+1));
+            }
+
+            return neighbors;
+        }
+
+        public static List<Point> get8Neighborhood(int[,] array, Point point)
+        {
+            var neighbors = get4Neighborhood(array, point);
+
+            if(point.xCoordinate > 0 && point.yCoordinate > 0)
+            {
+                neighbors.Add(new Point(point.xCoordinate-1, point.yCoordinate-1));
+            }
+            if(point.xCoordinate  < array.GetLength(0)-1 && point.yCoordinate > 0)
+            {
+                neighbors.Add(new Point(point.xCoordinate+1, point.yCoordinate-1));
+            }
+            if(point.xCoordinate  < array.GetLength(0)-1 && point.yCoordinate < array.GetLength(1)-1)
+            {
+                neighbors.Add(new Point(point.xCoordinate+1, point.yCoordinate+1));
+            }
+            if(point.xCoordinate  > 0 && point.yCoordinate < array.GetLength(1)-1)
+            {
+                neighbors.Add(new Point(point.xCoordinate-1, point.yCoordinate+1));
+            }
+
+            return neighbors;
+        }
+
     }
 }

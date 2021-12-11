@@ -43,7 +43,7 @@ namespace adventCode21
 
                 foreach (var point in basin)
                 {
-                    potentialCandidates.AddRange(getNeighbors(heatmap, point));
+                    potentialCandidates.AddRange(InputConverter.get4Neighborhood(heatmap, point));
                 }
 
                 foreach (var item in potentialCandidates.Distinct())
@@ -87,34 +87,9 @@ namespace adventCode21
 
             return points;
         }
-
-        private List<(int, int)> getNeighbors(int[,] array, (int, int) position)
-        {
-            var neighbors = new List<(int, int)>();
-
-            if(position.Item1 > 0)
-            {
-                neighbors.Add((position.Item1-1, position.Item2));
-            }
-            if(position.Item2 > 0)
-            {
-                neighbors.Add((position.Item1, position.Item2-1));
-            }
-            if(position.Item1 < array.GetLength(0)-1)
-            {
-                neighbors.Add((position.Item1+1, position.Item2));
-            }
-            if(position.Item2 < array.GetLength(1)-1)
-            {
-                neighbors.Add((position.Item1, position.Item2+1));
-            }
-
-            return neighbors;
-        }
-
         private List<int> getNeighborValues(int[,] array, (int, int) position)
         {
-            return getNeighbors(array, position).Select(x => array[x.Item1,x.Item2]).ToList();
+            return InputConverter.get4Neighborhood(array, position).Select(x => array[x.Item1,x.Item2]).ToList();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace adventCode21
     {
         static void Main(string[] args)
         {
-          var day = new day5();
+          var day = new day11();
           day.execute();
         }
     }
@@ -35,5 +35,23 @@ namespace adventCode21
       {
         return $"({xCoordinate},{yCoordinate})";
       }
+
+      public override bool Equals(object obj)
+        {
+          if (obj == null)
+          {
+              return false;
+          }
+          if (!(obj is Point))
+          {
+              return false;
+          }
+          return (this.xCoordinate == ((Point)obj).xCoordinate)
+              && (this.yCoordinate == ((Point)obj).yCoordinate);
+        }
+        public override int GetHashCode()
+        {
+            return xCoordinate.GetHashCode() ^ yCoordinate.GetHashCode();
+        }
     }
 }
