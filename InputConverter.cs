@@ -69,13 +69,17 @@ namespace adventCode21
         public static void PrintMap<T>(this T[,] array) where T : struct
         {
             Console.Write("   ");
-            Enumerable.Range(0, array.GetUpperBound(0)+1).ToList().ForEach(i => Console.Write("{0} ", i));
+            if(array.GetUpperBound(1) > 9) Console.Write(" ");
+            Enumerable.Range(0, array.GetUpperBound(1)+1).ToList().ForEach(i => Console.Write("{0} ", i));
             Console.WriteLine("");
-            Console.WriteLine("----------------------");
+            Enumerable.Range(0, array.GetUpperBound(1)+1).ToList().ForEach(i => Console.Write("---"));
+            Console.WriteLine("");
 
             for (int i = 0; i <= array.GetUpperBound(0); i++)
             {
-                Console.Write("{0}| ", i);
+                var padding = "";
+                if(i < 10) padding = " ";
+                Console.Write("{0}{1}| ", i, padding);
                 for (int l = 0; l <= array.GetUpperBound(1); l++)
                 {
                     Console.Write("{0} ", array[i,l]);
