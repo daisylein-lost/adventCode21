@@ -12,7 +12,7 @@ namespace adventCode21
 
         public void execute()
         {
-            //do1();
+            do1();
             do2();
             
         }
