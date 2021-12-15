@@ -40,6 +40,19 @@ namespace adventCode21
             return input.Select(x => int.Parse(x)).ToArray();
         }
 
+        public static T[,] Copy<T>(this T[,] array) where T : struct
+        {
+            var newArray = new T[array.GetLength(0), array.GetLength(1)];
+            for (int i = 0; i <= array.GetUpperBound(0); i++)
+            {
+                for (int l = 0; l <= array.GetUpperBound(1); l++)
+                {
+                    newArray[i,l] = array[i,l];
+                }
+            }
+            return newArray;
+        }
+
         public static T[,] SetAllValues<T>(this T[,] array, T value) where T : struct
         {
             for (int i = 0; i <= array.GetUpperBound(0); i++)
@@ -105,6 +118,18 @@ namespace adventCode21
             return newArray;
         }
 
+        public static int[,] replaceCollum(int[,] array, int[] newCollum, int index)
+        {
+            var newArray = array;
+
+            for (int x = 0; x < newCollum.Length; x++)
+            {
+                newArray[x, index] = newCollum[x];
+            }
+
+            return newArray;
+        }
+
         public static int[] getCollum(List<int[]> list, int index)
         {
             var collum = new int[list.Count];
@@ -159,11 +184,19 @@ namespace adventCode21
             {
                 neighbors.Add(new Point(point.xCoordinate , point.yCoordinate-1));
             }
-            if(point.xCoordinate  < array.GetLength(0)-1)
+            neighbors.AddRange(getRightAndDownNeighborhood(array, point));
+
+            return neighbors;
+        }
+
+        public static List<Point> getRightAndDownNeighborhood(int[,] array, Point point)
+        {
+            var neighbors = new List<Point>();
+            if(point.xCoordinate  < array.GetLength(1)-1)
             {
                 neighbors.Add(new Point(point.xCoordinate +1, point.yCoordinate));
             }
-            if(point.yCoordinate < array.GetLength(1)-1)
+            if(point.yCoordinate < array.GetLength(0)-1)
             {
                 neighbors.Add(new Point(point.xCoordinate , point.yCoordinate+1));
             }
