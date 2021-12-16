@@ -33,7 +33,7 @@ namespace adventCode21
 
             foreach (var trans in transmissions)
             {
-                var package = new Package(trans);
+                var package = new Packet(trans);
 
                 package.AnalyseTransmission();
 
@@ -42,7 +42,7 @@ namespace adventCode21
             }
         }
 
-        private class Package
+        private class Packet
         {
             private operationType packetType;
 
@@ -52,9 +52,9 @@ namespace adventCode21
 
             public string binary;
 
-            List<Package> subPackages = new List<Package>();
+            List<Packet> subPackages = new List<Packet>();
 
-            public Package(string transmission)
+            public Packet(string transmission)
             {
                 binary = transmission;
                 packetVersion = Convert.ToInt32(binary.Substring(0,3), 2);
@@ -112,7 +112,7 @@ namespace adventCode21
 
             private string createSubpackage(string allpackages)
             {
-                var newPackage = new Package(allpackages);
+                var newPackage = new Packet(allpackages);
                 newPackage.AnalyseTransmission();
                 allpackages = allpackages.Substring(newPackage.binary.Length);
                 subPackages.Add(newPackage);
