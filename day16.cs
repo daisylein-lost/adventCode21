@@ -33,12 +33,12 @@ namespace adventCode21
 
             foreach (var trans in transmissions)
             {
-                var package = new Packet(trans);
+                var packet = new Packet(trans);
 
-                package.AnalyseTransmission();
+                packet.AnalyseTransmission();
 
-                Console.WriteLine("Sum of Version Numbers: {0}", package.getSumOfVersionNumbers());
-                Console.WriteLine("Value of transmission: {0}", package.value);
+                Console.WriteLine("Sum of Version Numbers: {0}", packet.getSumOfVersionNumbers());
+                Console.WriteLine("Value of transmission: {0}", packet.value);
             }
         }
 
@@ -52,7 +52,7 @@ namespace adventCode21
 
             public string binary;
 
-            List<Packet> subPackages = new List<Packet>();
+            List<Packet> subPackets = new List<Packet>();
 
             public Packet(string transmission)
             {
@@ -85,39 +85,39 @@ namespace adventCode21
             {
                 var rawLength = binary.Substring((int) bitStartIndex.lenghtIndex, (int)bitLength.subPacketNumberLength);
                 var subPacketNumber = Convert.ToInt32(rawLength, 2);
-                var allpackages = binary.Substring((int) bitStartIndex.lenghtIndex + (int)bitLength.subPacketNumberLength);
+                var allpackets = binary.Substring((int) bitStartIndex.lenghtIndex + (int)bitLength.subPacketNumberLength);
 
-                while(subPackages.Count() < subPacketNumber )
+                while(subPackets.Count() < subPacketNumber )
                 {
-                    allpackages = createSubpackage(allpackages);
+                    allpackets = createFirstSubpacketInString(allpackets);
                 }
 
-                binary = binary.Substring(0, binary.Length- allpackages.Length);
+                binary = binary.Substring(0, binary.Length- allpackets.Length);
             }
 
             private void AnalyseSubPacketsByTotalLenght()
             {
                 var rawLength = binary.Substring((int) bitStartIndex.lenghtIndex, (int)bitLength.totalPacketLength);
                 var length = Convert.ToInt32(rawLength, 2);
-                var allpackages = binary.Substring((int) bitStartIndex.lenghtIndex + (int)bitLength.totalPacketLength, length);
+                var allpackets = binary.Substring((int) bitStartIndex.lenghtIndex + (int)bitLength.totalPacketLength, length);
 
-                while(!String.IsNullOrEmpty(allpackages))
+                while(!String.IsNullOrEmpty(allpackets))
                 {
-                    allpackages = createSubpackage(allpackages);
+                    allpackets = createFirstSubpacketInString(allpackets);
                 }
 
                 binary = binary.Substring(0, (int) bitStartIndex.lenghtIndex + (int)bitLength.totalPacketLength + length);
 
             }
 
-            private string createSubpackage(string allpackages)
+            private string createFirstSubpacketInString(string allpackets)
             {
-                var newPackage = new Packet(allpackages);
-                newPackage.AnalyseTransmission();
-                allpackages = allpackages.Substring(newPackage.binary.Length);
-                subPackages.Add(newPackage);
+                var newPackets = new Packet(allpackets);
+                newPackets.AnalyseTransmission();
+                allpackets = allpackets.Substring(newPackets.binary.Length);
+                subPackets.Add(newPackets);
 
-                return allpackages;
+                return allpackets;
             }
 
             private void setOperationValue()
@@ -125,28 +125,28 @@ namespace adventCode21
                 switch (packetType)
                 {
                     case operationType.sum:
-                                                value = subPackages.Select(s => s.value).Sum();
+                                                value = subPackets.Select(s => s.value).Sum();
                                                 break;
                     case operationType.product:    
-                                                value = subPackages.Count > 1 ? subPackages.Select(s => s.value).Aggregate((a, x) => a * x) : subPackages[0].value;
+                                                value = subPackets.Count > 1 ? subPackets.Select(s => s.value).Aggregate((a, x) => a * x) : subPackets[0].value;
                                                 break;
                     case operationType.minimum:
-                                                value = subPackages.Select(s => s.value).Min();
+                                                value = subPackets.Select(s => s.value).Min();
                                                 break;
                     case operationType.maximum:
-                                                value = subPackages.Select(s => s.value).Max();
+                                                value = subPackets.Select(s => s.value).Max();
                                                 break;
                     case operationType.literal:
                                                 value = getLiteralBinary();
                                                 break;
                     case operationType.greaterThan:
-                                                value = subPackages[0].value > subPackages[1].value ? 1 : 0;
+                                                value = subPackets[0].value > subPackets[1].value ? 1 : 0;
                                                 break;
                     case operationType.lessThan:
-                                                value = subPackages[0].value < subPackages[1].value ? 1 : 0;
+                                                value = subPackets[0].value < subPackets[1].value ? 1 : 0;
                                                 break;
                     case operationType.equalTo:
-                                                value = subPackages[0].value == subPackages[1].value ? 1 : 0;
+                                                value = subPackets[0].value == subPackets[1].value ? 1 : 0;
                                                 break;
                     default:
                             throw new ArgumentOutOfRangeException();
@@ -156,25 +156,25 @@ namespace adventCode21
             private long getLiteralBinary()
             {
                 var transmission = binary.Substring((int)bitStartIndex.literalIndex);
-                var packageString = String.Empty;
+                var binaryString = String.Empty;
                 int bitPrefix;
-                var packageNumber = 0;
+                var bitgroupsNumber = 0;
                 do
                 {
-                    var bitGroup =  transmission.Substring(packageNumber*(int)bitLength.literalBitLength, (int)bitLength.literalBitLength);
+                    var bitGroup =  transmission.Substring(bitgroupsNumber*(int)bitLength.literalBitLength, (int)bitLength.literalBitLength);
                     bitPrefix = int.Parse(bitGroup[0].ToString());
-                    packageString +=  bitGroup.Substring(1);
-                    packageNumber++;
+                    binaryString +=  bitGroup.Substring(1);
+                    bitgroupsNumber++;
                 } while (bitPrefix != 0);
 
-                binary = binary.Substring(0, (int)bitStartIndex.literalIndex+packageNumber*(int)bitLength.literalBitLength);
+                binary = binary.Substring(0, (int)bitStartIndex.literalIndex+bitgroupsNumber*(int)bitLength.literalBitLength);
 
-                return Convert.ToInt64(packageString, 2);
+                return Convert.ToInt64(binaryString, 2);
             }
 
             public int getSumOfVersionNumbers()
             { 
-                return subPackages.Any() ? packetVersion + subPackages.Select(sp => sp.getSumOfVersionNumbers()).Sum() : packetVersion;
+                return subPackets.Any() ? packetVersion + subPackets.Select(sp => sp.getSumOfVersionNumbers()).Sum() : packetVersion;
             }
 
             enum operationType
