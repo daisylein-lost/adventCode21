@@ -228,5 +228,15 @@ namespace adventCode21
             return neighbors;
         }
 
+        public static List<int> findAllIndexesOf(this string s, char character)
+        {
+            var foundIndexes = new List<int>();
+            for (int i = s.IndexOf(character); i > -1; i = s.IndexOf(character, i+1))
+            {
+                    foundIndexes.Add(i);
+            }
+            return foundIndexes;
+        }
+
     }
 }
